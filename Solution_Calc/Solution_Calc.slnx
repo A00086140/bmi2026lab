@@ -1,7 +1,0 @@
-<Solution>
-  <Project Path="../bmi2021/bmi2026.csproj" />
-  <Project Path="Proj_Calc/Proj_Calc.csproj" />
-  <Project Path="Proj_Unittest/Proj_Unittest.csproj" />
-  <Project Path="Proj_UnitTest_GL/Proj_UnitTest_GL.csproj" />
-  <Project Path="Proj_UT_1/Proj_UT_1.csproj" />
-</Solution>
