@@ -1,12 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BMICalculator;
 
-
-
-namespace bmiUnitTestProject
+namespace BmiTests
 {
     [TestClass]
-    public class UnitTest1
+    public class Test_GL
     {
         [TestMethod]
         public void TestMethod1()
@@ -25,4 +23,5 @@ namespace bmiUnitTestProject
             Assert.AreEqual(bmi.BMICategory, cat);
         }
     }
+
 }
