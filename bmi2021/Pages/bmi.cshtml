@@ -1,58 +1,109 @@
-﻿@page
+﻿@*
+  File:         bmi.cshtml
+  Author:       Deepak Devaraj
+  Version:      1.1.0
+  Date:         2026-10-06
+  Status:       Development
+  License:      GPLv3
+  Copyright:    2026, Deepak Devaraj
+
+  Purpose:
+    BMI Calculator page: imperial inputs, styled result, test hooks.
+
+  Usage:
+    Replace the existing bmi.cshtml; set BUILD_SHA in App Service settings.
+
+  Dependencies:
+    ASP.NET Core Razor Pages, Bootstrap 5
+
+  Revision History:
+    1.1.0  2026-10-06  DD  Layout, result alert, test hooks, build footer
+    1.0.0  2026-10-06  DD  Initial release
+
+  Notes:
+    Category matching below assumes BMICategory text contains
+    "under", "normal", "over" or "obese"; adjust to your model.
+*@
+@page
 @model BMICalculator.Pages.BmiModel
 
 @{
-    ViewData["Title"] = "BMI calculator";
+    ViewData["Title"] = "BMI Calculator";
+    var build = Environment.GetEnvironmentVariable("BUILD_SHA") ?? "local";
+    var shortBuild = build.Length > 7 ? build[..7] : build;
+    var showResult = Request.Method == "POST" && ModelState.IsValid;
+
+    string AlertClass(string? category)
+    {
+        var c = (category ?? "").ToLowerInvariant();
+        if (c.Contains("under")) return "alert-info";
+        if (c.Contains("normal")) return "alert-success";
+        if (c.Contains("over")) return "alert-warning";
+        if (c.Contains("obese")) return "alert-danger";
+        return "alert-secondary";
+    }
 }
 
-<h2>BMI Calculator Lab - CD Deployed with Azure AppService and unit tests</h2>
-
+<h2>BMI Calculator</h2>
+<p class="text-muted">Enter your weight and height to see your Body Mass Index and category.</p>
 <hr />
+
 <div class="row">
-    <div class="col-md-4">
-        <form method="post">
+    <div class="col-md-5">
+        <form method="post" novalidate>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="BMI.WeightStones" class="control-label"></label>
-                <input asp-for="BMI.WeightStones" class="form-control" />
-                <span asp-validation-for="BMI.WeightStones" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BMI.WeightPounds" class="control-label"></label>
-                <input asp-for="BMI.WeightPounds" class="form-control" />
-                <span asp-validation-for="BMI.WeightPounds" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BMI.HeightFeet" class="control-label"></label>
-                <input asp-for="BMI.HeightFeet" class="form-control" />
-                <span asp-validation-for="BMI.HeightFeet" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BMI.HeightInches" class="control-label"></label>
-                <input asp-for="BMI.HeightInches" class="form-control" />
-                <span asp-validation-for="BMI.HeightInches" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Calculate" class="btn btn-light" />
-            </div>
-            @if (Request.Method == "POST")
-            {
-                <div>
-                    @Html.DisplayNameFor(m => m.BMI.BMIValue)
-                    @Html.DisplayFor(m => m.BMI.BMIValue)
+
+            <div class="row">
+                <div class="col-6 mb-3">
+                    <label asp-for="BMI.WeightStones" class="form-label"></label>
+                    <input asp-for="BMI.WeightStones" class="form-control" inputmode="numeric" />
+                    <span asp-validation-for="BMI.WeightStones" class="text-danger"></span>
                 </div>
-                <div>
-                    @Html.DisplayNameFor(m => m.BMI.BMICategory)
-                    @Html.DisplayFor(m => m.BMI.BMICategory)
+                <div class="col-6 mb-3">
+                    <label asp-for="BMI.WeightPounds" class="form-label"></label>
+                    <input asp-for="BMI.WeightPounds" class="form-control" inputmode="decimal" />
+                    <span asp-validation-for="BMI.WeightPounds" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6 mb-3">
+                    <label asp-for="BMI.HeightFeet" class="form-label"></label>
+                    <input asp-for="BMI.HeightFeet" class="form-control" inputmode="numeric" />
+                    <span asp-validation-for="BMI.HeightFeet" class="text-danger"></span>
+                </div>
+                <div class="col-6 mb-3">
+                    <label asp-for="BMI.HeightInches" class="form-label"></label>
+                    <input asp-for="BMI.HeightInches" class="form-control" inputmode="decimal" />
+                    <span asp-validation-for="BMI.HeightInches" class="text-danger"></span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Calculate</button>
+        </form>
+
+        <div aria-live="polite" class="mt-4">
+            @if (showResult)
+            {
+                <div class="alert @AlertClass(Model.BMI.BMICategory.ToString())" role="status">
+                    <div>
+                        @Html.DisplayNameFor(m => m.BMI.BMIValue):
+                        <strong data-testid="bmi-value">@Html.DisplayFor(m => m.BMI.BMIValue)</strong>
+                    </div>
+                    <div>
+                        @Html.DisplayNameFor(m => m.BMI.BMICategory):
+                        <strong data-testid="bmi-category">@Html.DisplayFor(m => m.BMI.BMICategory)</strong>
+                    </div>
                 </div>
             }
-        </form>
+        </div>
     </div>
-
 </div>
 
+<footer class="text-muted small mt-5">
+    Build @shortBuild · Deployed via GitHub Actions to Azure App Service
+</footer>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-
