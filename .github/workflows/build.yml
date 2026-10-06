@@ -27,7 +27,7 @@ jobs:
         run: dotnet restore bmi2025.sln
 
       - name: Build
-        run: dotnet build bmi2025.sln --no-restore --configuration Release
+        run: dotnet build bmi2025.sln --no-restore --configuration Release -p:SourceRevisionId=${{ github.sha }}
 
       - name: Test
         run: dotnet test bmi2025.sln --no-build --configuration Release --logger "trx;LogFileName=test-results.trx"
