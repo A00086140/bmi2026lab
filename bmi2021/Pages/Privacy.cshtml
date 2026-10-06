@@ -1,8 +1,69 @@
-﻿@page
+﻿@*  File:         Privacy.cshtml
+    Author:       Deepak Devaraj
+    Version:      1.0.0
+    Date:         2026-10-06
+    Status:       Development
+    License:      GPLv3
+    Copyright:    2026, Deepak Devaraj
+
+    Purpose:
+      Privacy notice for the BMI Calculator web application.
+*@
+@page
 @model PrivacyModel
 @{
     ViewData["Title"] = "Privacy Policy";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<h2>@ViewData["Title"]</h2>
+<p class="text-muted">Last updated: 6 October 2026</p>
+<hr />
+
+<h4>1. Overview</h4>
+<p>
+    This BMI Calculator is a demonstration application built as part of the
+    M.Sc. in DevOps (Continuous Software Delivery module) at TU Dublin. It
+    does not collect, store, or transmit any personal data.
+</p>
+
+<h4>2. What data we process</h4>
+<p>
+    The values you enter (weight in stones/pounds, height in feet/inches) are
+    used only to calculate your Body Mass Index for the current page load.
+    They are held in memory for the duration of the request and are
+    <strong>not</strong> written to a database, log file, or any storage
+    system.
+</p>
+
+<h4>3. Cookies</h4>
+<p>
+    This application does not set any tracking or advertising cookies. The
+    only cookie used is the standard ASP.NET Core session cookie, which is
+    required for the form to function correctly. It contains no personal
+    information and expires when you close your browser.
+</p>
+
+<h4>4. Third parties</h4>
+<p>
+    The application is hosted on Microsoft Azure App Service. Azure may
+    collect standard telemetry (such as request counts and response times)
+    in accordance with
+    <a href="https://privacy.microsoft.com/en-us/privacystatement"
+       target="_blank" rel="noopener">Microsoft's Privacy Statement</a>.
+    No personal data entered into the calculator is included in that
+    telemetry.
+</p>
+
+<h4>5. Changes to this policy</h4>
+<p>
+    As this is a teaching project, this policy may be updated during the
+    course of the module. The "Last updated" date at the top of this page
+    reflects the most recent revision.
+</p>
+
+<h4>6. Contact</h4>
+<p>
+    This application is maintained for educational purposes.
+    For questions about the module, please contact your lecturer through
+    the TU Dublin Brightspace portal.
+</p>
