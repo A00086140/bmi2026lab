@@ -29,16 +29,17 @@
 
 @{
     ViewData["Title"] = "BMI Calculator";
+
     var assembly = typeof(BMICalculator.Pages.BmiModel).Assembly;
     var infoVersion = assembly
-    .GetCustomAttribute<System.Reflection.AssemblyInformationalVersionAttribute>()
-    ?.InformationalVersion ?? "local";
-    // "1.0.0+7bb32838..." → "7bb32838..."
+        .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+        ?.InformationalVersion ?? "local";
     var build = infoVersion.Contains('+') ? infoVersion.Split('+')[^1] : infoVersion;
     var shortBuild = build.Length > 7 ? build[..7] : build;
+
     var showResult = Request.Method == "POST" && ModelState.IsValid;
 
-    string AlertClass(string? category)
+    string AlertClass(string category)
     {
         var c = (category ?? "").ToLowerInvariant();
         if (c.Contains("under")) return "alert-info";
